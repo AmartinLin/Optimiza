@@ -1,11 +1,11 @@
  /*
- *  GRAFO.CPP - Plantilla para la implementación de la clase GRAFOS
+ *  GRAFO.CPP - Plantilla para la implementaciï¿½n de la clase GRAFOS
  *
  *
  *  Autores : Antonio Sedeno Noda, Sergio Alonso
  *  Cursos   : 2012-2021
  */
-
+// Editado por: Alejandro MartÃ­n Linares (alu0101476476@ull.edu.es)
 #include "grafo.h"
 
 void GRAFO :: destroy()
@@ -25,34 +25,42 @@ void GRAFO :: destroy()
 
 }
 
-void GRAFO :: build (char nombrefichero[85], int &errorapertura)
-{
+void GRAFO :: build (char nombrefichero[85], int &errorapertura) {
     ElementoLista     dummy;
 	ifstream textfile;
 	textfile.open(nombrefichero);
-	if (textfile.is_open())
-    {
+	if (textfile.is_open()) {
 		unsigned i, j, k;
 		// leemos por conversion implicita el numero de nodos, arcos y el atributo dirigido
 		textfile >> (unsigned &) n >> (unsigned &) m >> (unsigned &) dirigido;
 		// los nodos internamente se numeran desde 0 a n-1
-		// creamos las n listas de sucesores
+		// creamos las n listas de sucesores (LS = Lista de sucesores, LP = lista de predecesores)
 		LS.resize(n);
+        if (dirigido == 1) {
+            LP.resize(n);
+        }
         // leemos los m arcos
-		for (k=0;k<m;k++)
-        	{
+		for (k = 0; k < m; k++) {
 			textfile >> (unsigned &) i  >> (unsigned &) j >> (int &) dummy.c;
 			//damos los valores a dummy.j y dummy.c
-			//situamos en la posición del nodo i a dummy mediante push_back
+            dummy.j = j - 1;
+			//situamos en la posiciï¿½n del nodo i a dummy mediante push_back
+            LS[i - 1].push_back(dummy);
 			//pendiente de hacer un segundo push_back si es no dirigido. O no.
-			//pendiente la construcción de LP, si es dirigido
+            if (dirigido == 1) {
+                dummy.j = i - 1;
+                LP[j - 1].push_back(dummy);
+            }
+			//pendiente la construcciï¿½n de LP, si es dirigido
 			//pendiente del valor a devolver en errorapertura
 			//...
-
+        }
+    } else {
+        errorapertura = 1;
+    }
 }
 
-GRAFO::~GRAFO()
-{
+GRAFO::~GRAFO() {
 	destroy();
 }
 
@@ -115,7 +123,7 @@ void GRAFO::bfs_num(	unsigned i, //nodo desde el que realizamos el recorrido en 
 				vector<LA_nodo>  L, //lista que recorremos, LS o LP; por defecto LS
 				vector<unsigned> &pred, //vector de predecesores en el recorrido
 				vector<unsigned> &d) //vector de distancias a nodo i+1
-//Recorrido en amplitud con la construcción de pred y d: usamos la cola
+//Recorrido en amplitud con la construcciï¿½n de pred y d: usamos la cola
 {
     vector<bool> visitado; //creamos e iniciamos el vector visitado
     visitado.resize(n, false);
@@ -129,32 +137,23 @@ void GRAFO::bfs_num(	unsigned i, //nodo desde el que realizamos el recorrido en 
     queue<unsigned> cola; //creamos e inicializamos la cola
     cola.push(i);//iniciamos el recorrido desde el nodo i+1
 
-    while (!cola.empty()) //al menos entra una vez al visitar el nodo i+1 y continúa hasta que la cola se vacíe
+    while (!cola.empty()) //al menos entra una vez al visitar el nodo i+1 y continï¿½a hasta que la cola se vacï¿½e
     {   unsigned k = cola.front(); //cogemos el nodo k+1 de la cola
         cola.pop(); //lo sacamos de la cola
         //Hacemos el recorrido sobre L desde el nodo k+1
         for (unsigned j=0;j<L[k].size();j++)
             //Recorremos todos los nodos u adyacentes al nodo k+1
-            //Si el nodo u no está visitado
+            //Si el nodo u no estï¿½ visitado
             {
             //Lo visitamos
             //Lo metemos en la cola
             //le asignamos el predecesor
             //le calculamos su etiqueta distancia
             };
-        //Hemos terminado pues la cola está vacía
+        //Hemos terminado pues la cola estï¿½ vacï¿½a
     };
 }
 
-void RecorridoAmplitud(); //Construye un recorrido en amplitud desde un nodo inicial
-{
+void RecorridoAmplitud() { //Construye un recorrido en amplitud desde un nodo inicial
 
 }
-
-
-
-
-
-
-
-
