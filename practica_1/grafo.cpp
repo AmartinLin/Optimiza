@@ -77,18 +77,25 @@ void GRAFO:: actualizar (char nombrefichero[85], int &errorapertura)
     build(nombrefichero, errorapertura);
 }
 
-unsigned GRAFO::Es_dirigido()
-{
-
+unsigned GRAFO::Es_dirigido() {
+    unsigned dirigido_o_no{0};
+    if (this->dirigido == 1) {
+        dirigido_o_no = 1;
+    }
+    return dirigido_o_no;
 }
 
-void GRAFO::Info_Grafo()
-{
-
+void GRAFO::Info_Grafo() {
+    std::cout << "\nNumero de nodos: " << this -> n;
+    std::cout << "\nNumero de arcos: " << this -> m;
+    if (Es_dirigido() == 1) {
+        std::cout << "\nTipo de grafo: Dririgido\n";
+    } else {
+        std::cout << "\nTipo de grafo: No Dririgido\n";
+    }
 }
 
-void Mostrar_Lista(vector<LA_nodo> L)
-{
+void Mostrar_Lista(vector<LA_nodo> L) {
 
 }
 
@@ -97,11 +104,11 @@ void GRAFO :: Mostrar_Listas (int l)
 
 }
 
-void GRAFO::Mostrar_Matriz() //Muestra la matriz de adyacencia, tanto los nodos adyacentes como sus costes
+/* void GRAFO::Mostrar_Matriz() //Muestra la matriz de adyacencia, tanto los nodos adyacentes como sus costes
 {
 
 }
-
+ */
 void GRAFO::dfs_num(unsigned i, vector<LA_nodo>  L, vector<bool> &visitado, vector<unsigned> &prenum, unsigned &prenum_ind, vector<unsigned> &postnum, unsigned &postnum_ind) //Recorrido en profundidad recursivo con recorridos enum y postnum
 {
 	visitado[i] = true;
