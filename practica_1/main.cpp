@@ -25,6 +25,9 @@ void menu (unsigned dirigido, char &opcion)
             cout << "i. Mostrar [i]nformacion basica del grafo" << endl;
             cout << "s. Mostrar la lista de [s]ucesores del grafo" << endl;
             cout << "p. Mostrar la lista de [p]redecesores del grafo" << endl;
+            cout << "m. Realizar un recorrido en a[m]plitud del grafo desde un nodo por sucesores\n";
+            cout << "r. Realizar un recorrido en p[r]ofundidad del grafo desde un nodo por sucesores\n";
+
 	    //Aqu� se a�aden m�s opciones al men� del grafo dirigido
             };
     cout << "q. Finalizar el programa" << endl;
@@ -85,12 +88,16 @@ int main(int argc, char *argv[])
                     cout << "Sucesores del grafo: \n";
                     G.Mostrar_Listas(0);
                     break;
-                
                 case 'p' :
                     cout << "\nPredecesores del grafo: \n";
                     G.Mostrar_Listas(1);
                     break;
-                
+                case 'm' :
+                    //G.RecorridoAmplitud();
+                    break;
+                case 'r' :
+                    G.RecorridoProfundidad();
+                    break;
                 default: 
                     cout << "Instrucción no correspondida, inténtelo de nuevo\n";
                     break;
