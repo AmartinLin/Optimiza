@@ -68,28 +68,27 @@ int main(int argc, char *argv[])
             switch (opcion)
             {
                 case 'c' :
-                    //clrscr();
-         	    cout << "Introduce el nombre completo del fichero de datos" << endl;
+         	    cout << "\nIntroduce el nombre completo del fichero de datos" << endl;
                     cin >> nombrefichero;
                     G.actualizar(nombrefichero, error_apertura);
-                    if (error_apertura == 1)
-                    {
+                    if (error_apertura == 1) {
                         cout << "Error en la apertura del fichero: revisa nombre y formato : puedes volver a intentarlo" << endl;
-                    }
-                    else
-                    {
+                    } else {
                         cout << "Fichero cargado correctamente desde " << nombrefichero << endl;
                     };
-                    //pressanykey();
-                    //clrscr();
                     break;
-
                 case 'i' :
-                    //clrscr();
-		    cout << "Grafo cargado desde " << nombrefichero << endl;
+		            cout << "\nGrafo cargado desde " << nombrefichero << endl;
                     G.Info_Grafo();
-                    //pressanykey();
-                    //clrscr();
+                    break;
+                case 's' :
+                    cout << "\nSucesores del grafo: \n";
+                    G.Mostrar_Listas(0);
+                    break;
+                
+                case 'p' :
+                    cout << "\nPredecesores del grafo: \n";
+                    G.Mostrar_Listas(1);
                     break;
 
 		 //Situar aqu� el resto de opciones del men�
@@ -97,6 +96,7 @@ int main(int argc, char *argv[])
     }
     while (opcion != 'q');
     }
-    cout << "Fin del programa" << endl;
-	return(0);
+    cout << "\nFin del programa" << endl;
+    exit(EXIT_SUCCESS);
+	return 0;
 };

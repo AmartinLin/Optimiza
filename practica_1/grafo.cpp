@@ -13,7 +13,7 @@ void GRAFO :: destroy()
 	for (unsigned i=0; i< n; i++)
     {
 		LS[i].clear();
-		A[i].clear();
+		//A[i].clear();
 		if (dirigido == 1)
         {
             LP[i].clear();
@@ -21,7 +21,7 @@ void GRAFO :: destroy()
 	}
 	LS.clear();
 	LP.clear();
-	A.clear();
+	//A.clear();
 
 }
 
@@ -71,8 +71,10 @@ GRAFO::GRAFO(char nombrefichero[85], int &errorapertura)
 
 void GRAFO:: actualizar (char nombrefichero[85], int &errorapertura)
 {
+    std::cout << "Entra en acualizar\n";
     //Limpiamos la memoria dinamica asumida en la carga previa, como el destructor
     destroy();
+    std::cout << "Elimina el anterior grafo\n";
     //Leemos del fichero y actualizamos G con nuevas LS y, en su caso, LP
     build(nombrefichero, errorapertura);
 }
@@ -96,12 +98,23 @@ void GRAFO::Info_Grafo() {
 }
 
 void Mostrar_Lista(vector<LA_nodo> L) {
-
+    for (int i{0}; i < L.size(); i++) {
+        for (int j{0}; j < L[i].size(); j++) {
+            std::cout << "Nodo " << i + 1 << ": (" << L[i][j].j + 1 << ", " << L[i][j].c << ")\n";
+        }
+    }
+    std::cout << std::endl;
 }
 
-void GRAFO :: Mostrar_Listas (int l)
-{
-
+void GRAFO :: Mostrar_Listas (int l) {
+    if (l == 1 && dirigido == 0) {
+        std::cout << "El grafo es NO dirigido\n";
+    }
+    if (l == 1) {
+        Mostrar_Lista(LP);
+    } else {
+        Mostrar_Lista(LS);
+    }
 }
 
 /* void GRAFO::Mostrar_Matriz() //Muestra la matriz de adyacencia, tanto los nodos adyacentes como sus costes
