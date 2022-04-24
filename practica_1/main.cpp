@@ -12,7 +12,7 @@
 void menu (unsigned dirigido, char &opcion)
 //Expresion del menu de opciones segun sea un grafo dirigido o no dirigido
 {
-    cout << "Optimiza!cion en Grafos, 2021-2022 Alejandro Martín Linares" << endl;
+    cout << "\nOptimiza!cion en Grafos, 2021-2022 Alejandro Martín Linares" << endl;
     cout << "c. [c]argar grafo desde fichero" << endl;
     if (dirigido == 0) //Grafo no dirigido
             {
@@ -78,17 +78,21 @@ int main(int argc, char *argv[])
                     };
                     break;
                 case 'i' :
-		            cout << "\nGrafo cargado desde " << nombrefichero << endl;
+		            cout << "Grafo cargado desde " << nombrefichero << endl;
                     G.Info_Grafo();
                     break;
                 case 's' :
-                    cout << "\nSucesores del grafo: \n";
+                    cout << "Sucesores del grafo: \n";
                     G.Mostrar_Listas(0);
                     break;
                 
                 case 'p' :
                     cout << "\nPredecesores del grafo: \n";
                     G.Mostrar_Listas(1);
+                    break;
+                
+                default: 
+                    cout << "Instrucción no correspondida, inténtelo de nuevo\n";
                     break;
 
 		 //Situar aqu� el resto de opciones del men�

@@ -36,6 +36,7 @@ void GRAFO :: build (char nombrefichero[85], int &errorapertura) {
 		// los nodos internamente se numeran desde 0 a n-1
 		// creamos las n listas de sucesores (LS = Lista de sucesores, LP = lista de predecesores)
 		LS.resize(n);
+		// construcci�n de LP, si es dirigido
         if (dirigido == 1) {
             LP.resize(n);
         }
@@ -51,7 +52,6 @@ void GRAFO :: build (char nombrefichero[85], int &errorapertura) {
                 dummy.j = i - 1;
                 LP[j - 1].push_back(dummy);
             }
-			//pendiente la construcci�n de LP, si es dirigido
 			//pendiente del valor a devolver en errorapertura
 			//...
         }
@@ -71,10 +71,8 @@ GRAFO::GRAFO(char nombrefichero[85], int &errorapertura)
 
 void GRAFO:: actualizar (char nombrefichero[85], int &errorapertura)
 {
-    std::cout << "Entra en acualizar\n";
     //Limpiamos la memoria dinamica asumida en la carga previa, como el destructor
     destroy();
-    std::cout << "Elimina el anterior grafo\n";
     //Leemos del fichero y actualizamos G con nuevas LS y, en su caso, LP
     build(nombrefichero, errorapertura);
 }
