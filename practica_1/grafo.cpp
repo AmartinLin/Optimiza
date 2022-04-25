@@ -143,16 +143,11 @@ void GRAFO::dfs_num( unsigned i,
                      vector<unsigned> &postnum, 
                      unsigned &postnum_ind 
                     ) {
-    std::cout << "[DEBUG]1\n";
 	visitado[i] = true;
-    std::cout << "[DEBUG]2\n";
     //asignamos el orden de visita prenum que corresponde el nodo i
     prenum[prenum_ind++]=i;
-    std::cout << "[DEBUG]3 " << L[i].size() << endl;
     for (unsigned j=0;j<L[i].size();j++) {
-        std::cout << "[DEBUG]4\n";
         if (!visitado[L[i][j].j]) {
-            std::cout << "[DEBUG]5\n";
             dfs_num(L[i][j].j, L, visitado, prenum, prenum_ind, postnum, postnum_ind);
         };
     }
@@ -165,7 +160,7 @@ void GRAFO::dfs_num( unsigned i,
  */
 void GRAFO::RecorridoProfundidad() {
     //creación e inicialización de variables y vectores
-    vector<LA_nodo> L{LS};
+    unsigned i;
     vector<bool> visitado;
     vector<unsigned> prenum;
     unsigned prenum_ind{0};
@@ -175,25 +170,23 @@ void GRAFO::RecorridoProfundidad() {
     prenum.resize(n);
     postnum.resize(n);
     //solicitud al usuario del nodo inicial del recorrido en profundidad
-    std::cout << "Construiremos un recorrido en profundidad\n";
+    std::cout << "\nConstruiremos un recorrido en profundidad\n";
     std::cout << "Elija un nodo de partida [1 - " << n << "] : ";
-    unsigned i;
     std::cin >> i;  
-    std::cout << "[DEBUG]Se crea todo\n";
-    dfs_num(i - 1, L, visitado, prenum, prenum_ind, postnum, postnum_ind);
+    dfs_num(i - 1, LS, visitado, prenum, prenum_ind, postnum, postnum_ind);
     //mostrar en pantalla el preorden
-    std::cout << "[DEBUG]se hace el dfs\n";
     std::cout << "Orden de visita de los nodos en preorden\n";
     std::cout << "[" << i << "]";
     for (int iterador{1}; iterador < prenum_ind; iterador++) {
-        std::cout << " -> "<< prenum[iterador] << std::endl;
+        std::cout << " -> " << "[" << prenum[iterador] + 1<< "]";
     }
     //mostrar en pantalla el postorden
-    std::cout << "Orden de visita de los nodos en preorden\n";
-    std::cout << "[" << postnum[postnum_ind] << "]";
+    std::cout << "\nOrden de visita de los nodos en preorden\n";
+    std::cout << "[" << postnum_ind << "]";
     for (int iterador{1}; iterador < postnum_ind; iterador++) {
-        std::cout << " -> "<< postnum[iterador] << std::endl;
+        std::cout << " -> " << "[" << postnum[iterador] + 1 << "]";
     }
+    std::cout << std::endl;
 }
 
 void GRAFO::bfs_num(	unsigned i, //nodo desde el que realizamos el recorrido en amplitud
