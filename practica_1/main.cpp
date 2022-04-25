@@ -84,6 +84,10 @@ int main(int argc, char *argv[])
 		            cout << "Grafo cargado desde " << nombrefichero << endl;
                     G.Info_Grafo();
                     break;
+                case 'a' :
+                    cout << "Lista de adyacencia:\n";
+                    G.Mostrar_Listas(0);
+                    break;
                 case 's' :
                     cout << "Sucesores del grafo: \n";
                     G.Mostrar_Listas(0);

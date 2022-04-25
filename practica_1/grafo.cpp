@@ -97,11 +97,13 @@ void GRAFO::Info_Grafo() {
 
 void Mostrar_Lista(vector<LA_nodo> L) {
     for (int i{0}; i < L.size(); i++) {
+        if (L[i].size() == 0) {
+            std::cout << "Nodo " << i + 1 << ": " << "Vacío\n";
+        }
         for (int j{0}; j < L[i].size(); j++) {
             std::cout << "Nodo " << i + 1 << ": (" << L[i][j].j + 1 << ", " << L[i][j].c << ")\n";
         }
     }
-    std::cout << std::endl;
 }
 
 void GRAFO :: Mostrar_Listas (int l) {
@@ -144,11 +146,13 @@ void GRAFO::dfs_num( unsigned i,
     std::cout << "[DEBUG]1\n";
 	visitado[i] = true;
     std::cout << "[DEBUG]2\n";
-    prenum[prenum_ind++]=i;//asignamos el orden de visita prenum que corresponde el nodo i
+    //asignamos el orden de visita prenum que corresponde el nodo i
+    prenum[prenum_ind++]=i;
     std::cout << "[DEBUG]3 " << L[i].size() << endl;
     for (unsigned j=0;j<L[i].size();j++) {
         std::cout << "[DEBUG]4\n";
         if (!visitado[L[i][j].j]) {
+            std::cout << "[DEBUG]5\n";
             dfs_num(L[i][j].j, L, visitado, prenum, prenum_ind, postnum, postnum_ind);
         };
     }
@@ -176,7 +180,7 @@ void GRAFO::RecorridoProfundidad() {
     unsigned i;
     std::cin >> i;  
     std::cout << "[DEBUG]Se crea todo\n";
-    dfs_num(i, L, visitado, prenum, prenum_ind, postnum, postnum_ind);
+    dfs_num(i - 1, L, visitado, prenum, prenum_ind, postnum, postnum_ind);
     //mostrar en pantalla el preorden
     std::cout << "[DEBUG]se hace el dfs\n";
     std::cout << "Orden de visita de los nodos en preorden\n";
