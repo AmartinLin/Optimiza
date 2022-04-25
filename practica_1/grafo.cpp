@@ -121,20 +121,31 @@ void GRAFO :: Mostrar_Listas (int l) {
 }
  */
 
-
-void GRAFO::dfs_num( unsigned i, //nodo desde el que realizamos el recorrido en profundidad
-                     vector<LA_nodo>  L, //lista que recorremos, LS o LP; por defecto LS
-                     vector<bool> &visitado, //vector que informa de si un nodo ha sido visitado
-                     vector<unsigned> &prenum, //almacenamos en la posición i el preorden del nodo i+1
-                     unsigned &prenum_ind, //contador del preorden
-                     vector<unsigned> &postnum, //almacenamos en la posición i el postorden del nodo i+1
-                     unsigned &postnum_ind //contador del postorden
-                    ) {//Recorrido en profundidad recursivo con recorridos enum y postnum
+/**
+ * @brief Hace un recorrido dfs de un grafo tanto con recorridos
+ *        enum y postnum
+ * 
+ * @param i nodo desde el que realizamos el recorrido en profundidad
+ * @param L lista que recorremos, LS o LP; por defecto LS
+ * @param visitado vector que informa de si un nodo ha sido visitado
+ * @param prenum almacenamos en la posición i el preorden del nodo i+1
+ * @param prenum_ind contador del preorden
+ * @param postnum almacenamos en la posición i el postorden del nodo i+1
+ * @param postnum_ind contador del postorden
+ */
+void GRAFO::dfs_num( unsigned i, 
+                     vector<LA_nodo>  L, 
+                     vector<bool> &visitado, 
+                     vector<unsigned> &prenum, 
+                     unsigned &prenum_ind, 
+                     vector<unsigned> &postnum, 
+                     unsigned &postnum_ind 
+                    ) {
     std::cout << "[DEBUG]1\n";
 	visitado[i] = true;
     std::cout << "[DEBUG]2\n";
     prenum[prenum_ind++]=i;//asignamos el orden de visita prenum que corresponde el nodo i
-    std::cout << "[DEBUG]3\n" << L[i].size() << endl;
+    std::cout << "[DEBUG]3 " << L[i].size() << endl;
     for (unsigned j=0;j<L[i].size();j++) {
         std::cout << "[DEBUG]4\n";
         if (!visitado[L[i][j].j]) {
@@ -144,6 +155,10 @@ void GRAFO::dfs_num( unsigned i, //nodo desde el que realizamos el recorrido en 
     postnum[postnum_ind++]=i;//asignamos el orden de visita posnum que corresponde al nodo i
 }
 
+/**
+ * @brief Hace un recorrido en profundidad de un grafo
+ * 
+ */
 void GRAFO::RecorridoProfundidad() {
     //creación e inicialización de variables y vectores
     vector<LA_nodo> L{LS};
