@@ -97,9 +97,11 @@ int main(int argc, char *argv[])
                     G.Mostrar_Listas(1);
                     break;
                 case 'm' :
-                    //G.RecorridoAmplitud();
+                    cout << "\nConstruiremos un recorrido en amplitud\n";
+                    G.RecorridoAmplitud();
                     break;
                 case 'r' :
+                    cout << "\nConstruiremos un recorrido en profundidad\n";
                     G.RecorridoProfundidad();
                     break;
                 default: 

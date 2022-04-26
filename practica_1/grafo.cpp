@@ -170,7 +170,6 @@ void GRAFO::RecorridoProfundidad() {
     prenum.resize(n);
     postnum.resize(n);
     //solicitud al usuario del nodo inicial del recorrido en profundidad
-    std::cout << "\nConstruiremos un recorrido en profundidad\n";
     std::cout << "Elija un nodo de partida [1 - " << n << "] : ";
     std::cin >> i;  
     dfs_num(i - 1, LS, visitado, prenum, prenum_ind, postnum, postnum_ind);
@@ -189,13 +188,20 @@ void GRAFO::RecorridoProfundidad() {
     std::cout << std::endl;
 }
 
-void GRAFO::bfs_num(	unsigned i, //nodo desde el que realizamos el recorrido en amplitud
-				vector<LA_nodo>  L, //lista que recorremos, LS o LP; por defecto LS
-				vector<unsigned> &pred, //vector de predecesores en el recorrido
-				vector<unsigned> &d) //vector de distancias a nodo i+1
-//Recorrido en amplitud con la construcci�n de pred y d: usamos la cola
-{
-    vector<bool> visitado; //creamos e iniciamos el vector visitado
+/**
+ * @brief Recorrido en amplitud con la construcción de pred y d: usamos la cola
+ * 
+ * @param i nodo desde el que realizamos el recorrido en amplitud
+ * @param L lista que recorremos, LS o LP; por defecto LS
+ * @param pred vector de predecesores en el recorrido
+ * @param d vector de distancias a nodo i+1
+ */
+void GRAFO::bfs_num(	unsigned i, 
+				        vector<LA_nodo>  L, 
+				        vector<unsigned> &pred, 
+				        vector<unsigned> &d) {
+    //creamos e iniciamos el vector visitado
+    vector<bool> visitado; 
     visitado.resize(n, false);
     visitado[i] = true;
 
@@ -211,19 +217,36 @@ void GRAFO::bfs_num(	unsigned i, //nodo desde el que realizamos el recorrido en 
     {   unsigned k = cola.front(); //cogemos el nodo k+1 de la cola
         cola.pop(); //lo sacamos de la cola
         //Hacemos el recorrido sobre L desde el nodo k+1
-        for (unsigned j=0;j<L[k].size();j++)
-            //Recorremos todos los nodos u adyacentes al nodo k+1
-            //Si el nodo u no est� visitado
-            {
+        std::cout << "Elemetno actual: " << k << std::endl;
+        for (unsigned j=0;j<L[k].size();j++) //Recorremos todos los nodos u adyacentes al nodo k+1
+            if (!visitado[j]) { //Si el nodo u no est� visitado 
             //Lo visitamos
+            visitado[j] = true;
             //Lo metemos en la cola
+            cola.push(j);
             //le asignamos el predecesor
+            pred[j] = k;
             //le calculamos su etiqueta distancia
+            d[j] = d[k] + 1;
             };
         //Hemos terminado pues la cola est� vac�a
     };
 }
 
-void RecorridoAmplitud() { //Construye un recorrido en amplitud desde un nodo inicial
-
+/**
+ * @brief Construye un recorrido en amplitud desde un nodo inicial
+ * 
+ */
+void GRAFO::RecorridoAmplitud() {  
+    unsigned i;
+    vector<unsigned> pred;
+    vector<unsigned> d;
+    std::cout << "Elija un nodo de partida [1 -" << n << "]: ";
+    std::cin >> i;
+    bfs_num(i, LS, pred, d);
+    std::cout << "Nodo inicial: " << i << std::endl;
+    std::cout << "\nNodos según la distancia al nodo inicial en numero de aristas: \n";
+    for (int i{0}; i < d.size(); i++) {
+        std::cout << d[i] << std::endl;
+    }
 }
