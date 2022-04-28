@@ -222,7 +222,6 @@ void GRAFO::bfs_num(	unsigned i,
         cola.pop(); //lo sacamos de la cola
         //Hacemos el recorrido sobre L desde el nodo k+1
         for (unsigned j=0;j<L[k].size();j++) { //Recorremos todos los nodos u adyacentes al nodo k+1
-            std::cout << "[DEBUG] ENTRA AL FOR\n";
             unsigned u = L[k][j].j; 
             //Si el nodo u no está visitado 
             if (visitado[u] == false) { 
