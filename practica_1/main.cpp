@@ -12,12 +12,15 @@
 void menu (unsigned dirigido, char &opcion)
 //Expresion del menu de opciones segun sea un grafo dirigido o no dirigido
 {
+    cout << "\n**********************************************************************************************";
     cout << "\nOptimiza!cion en Grafos, 2021-2022 Alejandro Martín Linares" << endl;
     cout << "c. [c]argar grafo desde fichero" << endl;
     if (dirigido == 0) //Grafo no dirigido
             {
             cout << "i. Mostrar [i]nformacion basica del grafo" << endl;
             cout << "a. Mostrar la lista de [a]dyacencia del grafo" << endl;
+            cout << "m. Realizar un recorrido en a[m]plitud del grafo desde un nodo por sucesores\n";
+            cout << "r. Realizar un recorrido en p[r]ofundidad del grafo desde un nodo por sucesores\n";
 	    //Aqu� se a�aden m�s opciones al men� del grafo no dirigido
             }
     else
@@ -86,14 +89,17 @@ int main(int argc, char *argv[])
                     break;
                 case 'a' :
                     cout << "Lista de adyacencia:\n";
+                    cout << "[ESQUEMA] Nodo x: (nodo adyacente, coste)\n";
                     G.Mostrar_Listas(0);
                     break;
                 case 's' :
-                    cout << "Sucesores del grafo: \n";
+                    cout << "\nSucesores del grafo: \n";
+                    cout << "[ESQUEMA] Nodo x: (sucesor, coste)\n";
                     G.Mostrar_Listas(0);
                     break;
                 case 'p' :
                     cout << "\nPredecesores del grafo: \n";
+                    cout << "[ESQUEMA] Nodo x: (predecesor, coste)\n";
                     G.Mostrar_Listas(1);
                     break;
                 case 'm' :
