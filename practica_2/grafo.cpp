@@ -281,3 +281,59 @@ void GRAFO::RecorridoAmplitud() {
         }
     } 
 }
+
+template <class T> 
+int particion(vector<T> &aristas, int inicio, int final) {
+    int pivote = aristas[inicio].peso; // seleccionamos como elementos pivote la primera arista
+    int i = inicio + 1;
+    for (int j = i; j <= final; j++) {
+        if (aristas[j].peso < pivote) {
+            swap(aristas[i], aristas[j]);
+            i++;
+        }
+    }
+    swap(aristas[inicio], aristas[i - 1]);
+    return i - 1;
+}
+
+template <class T> 
+void quickSort(vector<T> &aristas, int inicio, int final) {
+    if (inicio < final) { // caso base
+        int pivote = particion(aristas, inicio, final);
+        // dividimos el vector a por el elemento pivote y hacemos recursividad en las dos partes
+        quickSort(aristas, inicio, pivote - 1); 
+        quickSort(aristas, pivote + 1, final);
+    }
+}
+
+void GRAFO::kruskal() {
+    vector<AristaPesada> Aristas;
+    /*Cargamos todas las aristas de la lista de adyacencia*/
+    Aristas.resize(m);
+    unsigned k = 0;
+    for (unsigned i{0}; i < n; i++) {
+        for (unsigned j{0}; j < LS[i].size(); j++) {
+            if (i < LS[i][j].j) {
+                Aristas[k].extremo1 = i;
+                Aristas[k].extremo2 = LS[i][j].j;
+                Aristas[k++].peso = LS[i][j].c;
+            }
+        }
+    };
+    // necesito ordenar las aristas por coste, para ello se ha desarroyado 
+    // la función quicksort
+    quickSort(Aristas, 0, Aristas.size() - 1);
+    for (int i{0}; i < Aristas.size(); i++) {
+        std::cout << Aristas[i].peso << " ";
+    }
+    std::cout << std::endl;
+    for (int i{0}; i < Aristas.size(); i++) {
+        std::cout << Aristas[i].extremo1 << " ";
+    }
+    std::cout << std::endl;
+    for (int i{0}; i < Aristas.size(); i++) {
+        std::cout << Aristas[i].extremo2 << " ";
+    }
+    std::cout << std::endl;
+}
+ 
