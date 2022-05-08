@@ -298,12 +298,12 @@ int particion(vector<T> &aristas, int inicio, int final) {
 
 template <class T> 
 void quickSort(vector<T> &aristas, int inicio, int final) {
-    if (inicio < final) { // caso base
-        int pivote = particion(aristas, inicio, final);
-        // dividimos el vector a por el elemento pivote y hacemos recursividad en las dos partes
-        quickSort(aristas, inicio, pivote - 1); 
-        quickSort(aristas, pivote + 1, final);
+    if (inicio >= final) { 
+        return;
     }
+    int pivote = particion(aristas, inicio, final);
+    quickSort(aristas, inicio, pivote - 1); 
+    quickSort(aristas, pivote + 1, final);
 }
 
 void GRAFO::kruskal() {
@@ -328,11 +328,11 @@ void GRAFO::kruskal() {
     }
     std::cout << std::endl;
     for (int i{0}; i < Aristas.size(); i++) {
-        std::cout << Aristas[i].extremo1 << " ";
+        std::cout << Aristas[i].extremo1 + 1 << " ";
     }
     std::cout << std::endl;
     for (int i{0}; i < Aristas.size(); i++) {
-        std::cout << Aristas[i].extremo2 << " ";
+        std::cout << Aristas[i].extremo2 + 1 << " ";
     }
     std::cout << std::endl;
 }

@@ -18,6 +18,7 @@ void menu (unsigned dirigido, char &opcion)
             {
             cout << "i. Mostrar [i]nformacion basica del grafo" << endl;
             cout << "a. Mostrar la lista de [a]dyacencia del grafo" << endl;
+            cout << "k. Realizar el algoritmo de [k]ruskal\n";
 	    //Aqu� se a�aden m�s opciones al men� del grafo no dirigido
             }
     else
@@ -27,8 +28,6 @@ void menu (unsigned dirigido, char &opcion)
             cout << "p. Mostrar la lista de [p]redecesores del grafo" << endl;
             cout << "m. Realizar un recorrido en a[m]plitud del grafo desde un nodo por sucesores\n";
             cout << "r. Realizar un recorrido en p[r]ofundidad del grafo desde un nodo por sucesores\n";
-            cout << "k. Realizar el algoritmo de [k]ruskal\n";
-
 	    //Aqu� se a�aden m�s opciones al men� del grafo dirigido
             };
     cout << "q. Finalizar el programa" << endl;
