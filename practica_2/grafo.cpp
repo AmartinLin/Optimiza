@@ -323,17 +323,30 @@ void GRAFO::kruskal() {
     // necesito ordenar las aristas por coste, para ello se ha desarroyado 
     // la función quicksort
     quickSort(Aristas, 0, Aristas.size() - 1);
-    for (int i{0}; i < Aristas.size(); i++) {
-        std::cout << Aristas[i].peso << " ";
+    /*Inicializamos el registro de componentes conexas: cada nodo está en su componente conexa*/
+    vector <unsigned> Raiz;
+    Raiz.resize(n);
+    for (unsigned q = 0;q < n; q++) {
+        Raiz[q]=q;
+    };
+    vector<AristaPesada> arbol;
+    double coste_total{0};
+    for (int aristas_realiza{0}; arbol.size() < m && arbol.size() < n - 1; aristas_realiza++) {
+        AristaPesada e = Aristas[aristas_realiza]; // e -> siguiente arista
+        if (Raiz[e.extremo1] != Raiz[e.extremo2]) {
+            arbol.push_back(e);
+            std::cout << "Arista numero " << aristas_realiza << " incorporada (" <<
+                        e.extremo1 + 1 << ", " << e.extremo2 + 1 << "), con peso " << e.peso << std::endl;
+            coste_total += e.peso;
+        }
+        // Clasificamos los elementos conexos con la misma raíz
+        unsigned kill = Raiz[aristas_realiza];
+        for (int k{0}; k < n; k++) {
+            if (Raiz[k] == kill) {
+                Raiz[k] = Raiz[e.extremo2];
+            }
+        }
     }
-    std::cout << std::endl;
-    for (int i{0}; i < Aristas.size(); i++) {
-        std::cout << Aristas[i].extremo1 + 1 << " ";
-    }
-    std::cout << std::endl;
-    for (int i{0}; i < Aristas.size(); i++) {
-        std::cout << Aristas[i].extremo2 + 1 << " ";
-    }
-    std::cout << std::endl;
+    std::cout << "Coste total del arbol: " << coste_total << std::endl;
 }
  

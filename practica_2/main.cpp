@@ -107,6 +107,7 @@ int main(int argc, char *argv[])
                 case 'k' :
                     cout << "\n Algoritmo de kruskal\n";
                     G.kruskal();
+                    break;
                 default: 
                     cout << "Instrucción no correspondida, inténtelo de nuevo\n";
                     break;
