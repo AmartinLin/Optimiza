@@ -368,3 +368,66 @@ void GRAFO::kruskal() {
     }
     std::cout << "Coste total del arbol: " << coste_total << std::endl;
 }
+
+void MostrarCamino(unsigned s, unsigned i, vector<unsigned> pred) {
+    if (i != s) {
+        MostrarCamino(s,pred[i],pred);
+        cout << pred[i]+1 << " - ";
+    }
+}
+
+void GRAFO::Dijkstra() {
+    vector<bool> PermanentementeEtiquetado;
+    vector<int> d;
+    vector<unsigned> pred;
+    int min;
+    unsigned s, candidato;
+    //Inicialmente no hay ningun nodo permanentemente etiquetado
+    PermanentementeEtiquetado.resize(n,false);
+    //Inicialmente todas las etiquetas distancias son infinito
+    d.resize(n,maxint);
+    //Inicialmente el pred es null
+    pred.resize(n,UERROR);
+    //Solicitamos al usuario nodo origen
+    cout << endl;
+    cout << "Caminos minimos: Dijkstra" << endl;
+    cout << "Nodo de partida? [1-"<< n << "]: ";
+    cin  >> (unsigned &) s;
+    //La etiqueta distancia del nodo origen es 0, y es su propio pred
+    d[--s] = 0; 
+    pred[s] = s;
+    int nodo_actual = s;
+    do {
+        // Asigno al nodo actual como permanentemente etiquetado
+        PermanentementeEtiquetado[nodo_actual] = true;
+
+                                    /* Buscamos un nodo candidato a ser permanentemente etiquetado: 
+                                    aquel de entre los no permanentemente etiquetados, es decir, 
+                                    en el almacén con menor etiqueta distancia no infinita.
+                                    Si existe ese candidato, lo etiquetamos permanentemente y 
+                                    usamos los arcos de la lista de sucesores para buscar atajos.
+                                    Esto lo hacemos mientras haya candidatos */
+
+        // Almaceno en un almacén los nodos sucesores
+        vector<ElementoLista> almacen;
+        for (int i{0}; i < LS[nodo_actual].size(); i++) {
+            almacen.push_back(LS[nodo_actual][i]);
+        }
+        // Busco el sucesor del nodo actual que menor coste tenga
+        int min{maxint};
+        int coste_min{maxint};
+        for (int sucesor{0}; sucesor < almacen.size(); sucesor++) {
+            ElementoLista temp = LS[nodo_actual][sucesor];
+            if (temp.c < coste_min) {
+                min = temp.j;
+            }
+        }
+        // Ahora el nodo actual deja de ser el "nodo_actual" para ser el min
+        nodo_actual = min;
+
+    } while (PermanentementeEtiquetado.size() != n);
+    cout << "Soluciones:" << endl;
+    //En esta parte del código, mostramos los caminos mínimos, si los hay
+    for (int i{0}; i < PermanentementeEtiquetado.size(); i++)
+        MostrarCamino(s, i, pred);
+}
