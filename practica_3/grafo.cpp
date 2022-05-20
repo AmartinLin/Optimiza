@@ -371,6 +371,7 @@ void GRAFO::kruskal() {
 
 void MostrarCamino(unsigned s, unsigned i, vector<unsigned> pred) {
     if (i != s) {
+        //std::cout << "[DEBUG] " << pred[i] << std::endl;
         MostrarCamino(s,pred[i],pred);
         cout << pred[i]+1 << " - ";
     }
@@ -378,6 +379,7 @@ void MostrarCamino(unsigned s, unsigned i, vector<unsigned> pred) {
 
 void GRAFO::Dijkstra() {
     vector<bool> PermanentementeEtiquetado;
+    vector<int> almacen;
     vector<int> d;
     vector<unsigned> pred;
     int min;
@@ -393,41 +395,49 @@ void GRAFO::Dijkstra() {
     cout << "Caminos minimos: Dijkstra" << endl;
     cout << "Nodo de partida? [1-"<< n << "]: ";
     cin  >> (unsigned &) s;
+    almacen.resize(n);
+    for (int i{0}; i < n; i++) {
+        if (i != s) {
+            almacen.push_back(i);
+        }
+    }
     //La etiqueta distancia del nodo origen es 0, y es su propio pred
     d[--s] = 0; 
     pred[s] = s;
-    int nodo_actual = s;
+    int nodo_actual = s; // u = nodo_actual
+    bool parar{false};
     do {
-        // Asigno al nodo actual como permanentemente etiquetado
-        PermanentementeEtiquetado[nodo_actual] = true;
-
-                                    /* Buscamos un nodo candidato a ser permanentemente etiquetado: 
-                                    aquel de entre los no permanentemente etiquetados, es decir, 
-                                    en el almacén con menor etiqueta distancia no infinita.
-                                    Si existe ese candidato, lo etiquetamos permanentemente y 
-                                    usamos los arcos de la lista de sucesores para buscar atajos.
-                                    Esto lo hacemos mientras haya candidatos */
-
-        // Almaceno en un almacén los nodos sucesores
-        vector<ElementoLista> almacen;
-        for (int i{0}; i < LS[nodo_actual].size(); i++) {
-            almacen.push_back(LS[nodo_actual][i]);
-        }
-        // Busco el sucesor del nodo actual que menor coste tenga
-        int min{maxint};
-        int coste_min{maxint};
-        for (int sucesor{0}; sucesor < almacen.size(); sucesor++) {
-            ElementoLista temp = LS[nodo_actual][sucesor];
-            if (temp.c < coste_min) {
-                min = temp.j;
+        /* Buscamos un nodo candidato a ser permanentemente etiquetado: 
+        aquel de entre los no permanentemente etiquetados, es decir, 
+        en el almacén con menor etiqueta distancia no infinita.
+        Si existe ese candidato, lo etiquetamos permanentemente y 
+        usamos los arcos de la lista de sucesores para buscar atajos.
+        Esto lo hacemos mientras haya candidatos */
+        for (int k{0}; k < LS[nodo_actual].size(); k++) {
+            if (almacen[k] && d[k] > d[nodo_actual] + LS[nodo_actual][k].c) {
+                d[k] = d[nodo_actual] + LS[nodo_actual][k].c;
+                pred[k] = nodo_actual;
             }
+            unsigned dmin = maxint;
+            for (int i{0}; i < almacen.size(); i++) {
+                if (d[i] < dmin) {
+                    nodo_actual = i;
+                    dmin = d[i];
+                }
+            }
+            if (dmin = maxint) parar = true; 
         }
-        // Ahora el nodo actual deja de ser el "nodo_actual" para ser el min
-        nodo_actual = min;
-
-    } while (PermanentementeEtiquetado.size() != n);
+    } while (almacen.size() != 0 && parar == false);
     cout << "Soluciones:" << endl;
     //En esta parte del código, mostramos los caminos mínimos, si los hay
-    for (int i{0}; i < PermanentementeEtiquetado.size(); i++)
-        MostrarCamino(s, i, pred);
+    for (int nodo_destino{1}; nodo_destino < n; nodo_destino++) {
+        if (pred[nodo_destino]) {
+            std::cout << "El camino desde " << s + 1 << " al nodo " << nodo_destino << " es: ";
+            std::cout << "DEBUG\n";
+            MostrarCamino(s, nodo_destino, pred);
+            std::cout << " de longitud " << d[nodo_destino];
+        } else {
+            std::cout << "No hay camino desde " << s << " al nodo " << nodo_destino;
+        }
+    }
 }
