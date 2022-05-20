@@ -389,13 +389,13 @@ void GRAFO::Dijkstra() {
     //Inicialmente todas las etiquetas distancias son infinito
     d.resize(n,maxint);
     //Inicialmente el pred es null
-    pred.resize(n,UERROR);
+    pred.resize(n,0);
     //Solicitamos al usuario nodo origen
     cout << endl;
     cout << "Caminos minimos: Dijkstra" << endl;
     cout << "Nodo de partida? [1-"<< n << "]: ";
     cin  >> (unsigned &) s;
-    almacen.resize(n);
+    // Almacenamos los nodos posibles en el almacen, menos el nodo del usuario
     for (int i{0}; i < n; i++) {
         if (i != s) {
             almacen.push_back(i);
@@ -413,31 +413,42 @@ void GRAFO::Dijkstra() {
         Si existe ese candidato, lo etiquetamos permanentemente y 
         usamos los arcos de la lista de sucesores para buscar atajos.
         Esto lo hacemos mientras haya candidatos */
-        for (int k{0}; k < LS[nodo_actual].size(); k++) {
-            if (almacen[k] && d[k] > d[nodo_actual] + LS[nodo_actual][k].c) {
-                d[k] = d[nodo_actual] + LS[nodo_actual][k].c;
-                pred[k] = nodo_actual;
+        for (int k{0}; k < LS[nodo_actual].size(); k++) {                       // Para todo nodo sucesor del nodo actual.
+            if (almacen[k] && d[k] > d[nodo_actual] + LS[nodo_actual][k].c) {   // si está en el almacén y la 
+                                                                                // distancia es mayor que el coste más el coste del nodo actual.
+
+                    std::cout << "Distancia del nodo k: " << d[k] << " Distancia del nodo impuesto: " << d[nodo_actual] + LS[nodo_actual][k].c << std::endl;
+
+                d[k] = d[nodo_actual] + LS[nodo_actual][k].c;                   // la distancia del nodo sucesor es su coste más el coste del predecesor del sucesor (k)
+                pred[k] = nodo_actual;                                          // marca al al sucesor k con el predecesor nodo_actual
             }
             unsigned dmin = maxint;
-            for (int i{0}; i < almacen.size(); i++) {
-                if (d[i] < dmin) {
-                    nodo_actual = i;
-                    dmin = d[i];
+            for (int i{0}; i < almacen.size(); i++) {                           // para todo nodo en el almacen
+                 std::cout << "d[i]: " << d[i] << std::endl;
+                if (d[i] < dmin) {                                              // si el coste del nodo i es menor que el coste minimo
+                    nodo_actual = i;                                            // el nodo actual es i
+                    dmin = d[i];                                                // la distancia minima ahora es la del nodo i
                 }
             }
-            if (dmin = maxint) parar = true; 
+            if (dmin = maxint) parar = true;                                    // En caso de que la distancia minima sea máxima (no hay distancia minima para el nodo)
+            std::cout << "dmin: " << dmin << std::endl;
+             std::cout << "parar: " << parar << std::endl;
+                                                                                // se para el while 
         }
     } while (almacen.size() != 0 && parar == false);
+    for (int i{0}; i < n; i++) {
+        std::cout << pred[i] << std::endl;
+    }
     cout << "Soluciones:" << endl;
     //En esta parte del código, mostramos los caminos mínimos, si los hay
-    for (int nodo_destino{1}; nodo_destino < n; nodo_destino++) {
+    for (int nodo_destino{0}; nodo_destino < n; nodo_destino++) {
         if (pred[nodo_destino]) {
             std::cout << "El camino desde " << s + 1 << " al nodo " << nodo_destino << " es: ";
-            std::cout << "DEBUG\n";
             MostrarCamino(s, nodo_destino, pred);
-            std::cout << " de longitud " << d[nodo_destino];
+            std::cout << " de longitud " << d[nodo_destino] << std::endl;
+            //std::cout << "DEBUG\n";
         } else {
-            std::cout << "No hay camino desde " << s << " al nodo " << nodo_destino;
+            std::cout << "No hay camino desde " << s + 1 << " al nodo " << nodo_destino << std::endl;
         }
     }
 }
