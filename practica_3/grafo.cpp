@@ -367,6 +367,13 @@ void GRAFO::kruskal() {
     std::cout << "Coste total del arbol: " << coste_total << std::endl;
 }
 
+/**
+ * @brief Función que ayuda a mostrar los caminos del arbol de Dijkstra
+ * 
+ * @param s Nodo inicial -1
+ * @param i Nodo en donde termina la rama
+ * @param pred Los predecesores 
+ */
 void MostrarCamino(unsigned s, unsigned i, vector<unsigned> pred) {
     if (i != s) {
         //std::cout << "[DEBUG] " << pred[i] << std::endl;
@@ -375,6 +382,10 @@ void MostrarCamino(unsigned s, unsigned i, vector<unsigned> pred) {
     }
 }
 
+/**
+ * @brief Realiza el algoritmo de Dijkstra con vector para etiquetar
+ * 
+ */
 void GRAFO::Dijkstra() {
     vector<bool> PermanentementeEtiquetado;
     vector<int> d;
