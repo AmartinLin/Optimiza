@@ -8,10 +8,8 @@
 // Editado por: Alejandro Martín Linares (alu0101476476@ull.edu.es)
 #include "grafo.h"
 
-void GRAFO :: destroy()
-{
-	for (unsigned i=0; i< n; i++)
-    {
+void GRAFO :: destroy() {
+	for (unsigned i=0; i< n; i++) {
 		LS[i].clear();
 		//A[i].clear();
 		if (dirigido == 1)
@@ -379,33 +377,22 @@ void MostrarCamino(unsigned s, unsigned i, vector<unsigned> pred) {
 
 void GRAFO::Dijkstra() {
     vector<bool> PermanentementeEtiquetado;
-    vector<int> almacen;
     vector<int> d;
     vector<unsigned> pred;
     int min;
     unsigned s, candidato;
-    //Inicialmente no hay ningun nodo permanentemente etiquetado
-    PermanentementeEtiquetado.resize(n,false);
-    //Inicialmente todas las etiquetas distancias son infinito
-    d.resize(n,maxint);
-    //Inicialmente el pred es null
-    pred.resize(n,0);
+    PermanentementeEtiquetado.resize(n,false);  //Inicialmente no hay ningun nodo permanentemente etiquetado
+    d.resize(n,maxint);                         //Inicialmente todas las etiquetas distancias son infinito
+    pred.resize(n,0);                           //Inicialmente el pred es null
     //Solicitamos al usuario nodo origen
-    cout << endl;
-    cout << "Caminos minimos: Dijkstra" << endl;
-    cout << "Nodo de partida? [1-"<< n << "]: ";
-    cin  >> (unsigned &) s;
-    // Almacenamos los nodos posibles en el almacen, menos el nodo del usuario
-    for (int i{0}; i < n; i++) {
-        if (i != s) {
-            almacen.push_back(i);
-        }
-    }
+    std::cout << endl;
+    std::cout << "Caminos minimos: Dijkstra" << endl;
+    std::cout << "Nodo de partida? [1-"<< n << "]: ";
+    std::cin  >> (unsigned &) s;
     //La etiqueta distancia del nodo origen es 0, y es su propio pred
-    d[--s] = 0; 
+    d[--s] = 0; // -> WARNING, S IS NOW (S - 1) FOREVER!!!
     pred[s] = s;
-    int nodo_actual = s; // u = nodo_actual
-    bool parar{false};
+    unsigned dmin;
     do {
         /* Buscamos un nodo candidato a ser permanentemente etiquetado: 
         aquel de entre los no permanentemente etiquetados, es decir, 
@@ -413,42 +400,34 @@ void GRAFO::Dijkstra() {
         Si existe ese candidato, lo etiquetamos permanentemente y 
         usamos los arcos de la lista de sucesores para buscar atajos.
         Esto lo hacemos mientras haya candidatos */
-        for (int k{0}; k < LS[nodo_actual].size(); k++) {                       // Para todo nodo sucesor del nodo actual.
-            if (almacen[k] && d[k] > d[nodo_actual] + LS[nodo_actual][k].c) {   // si está en el almacén y la 
-                                                                                // distancia es mayor que el coste más el coste del nodo actual.
-
-                    std::cout << "Distancia del nodo k: " << d[k] << " Distancia del nodo impuesto: " << d[nodo_actual] + LS[nodo_actual][k].c << std::endl;
-
-                d[k] = d[nodo_actual] + LS[nodo_actual][k].c;                   // la distancia del nodo sucesor es su coste más el coste del predecesor del sucesor (k)
-                pred[k] = nodo_actual;                                          // marca al al sucesor k con el predecesor nodo_actual
+        dmin = maxint;
+        for (int i{0}; i < n; i++) {                          
+            if (dmin > d[i] && !PermanentementeEtiquetado[i]) {
+                dmin = d[i];
+                candidato = i;
             }
-            unsigned dmin = maxint;
-            for (int i{0}; i < almacen.size(); i++) {                           // para todo nodo en el almacen
-                 std::cout << "d[i]: " << d[i] << std::endl;
-                if (d[i] < dmin) {                                              // si el coste del nodo i es menor que el coste minimo
-                    nodo_actual = i;                                            // el nodo actual es i
-                    dmin = d[i];                                                // la distancia minima ahora es la del nodo i
+        }
+        if (dmin != maxint) {
+            PermanentementeEtiquetado[candidato] = true;
+            for (int k{0}; k < LS[candidato].size(); k++) {                      
+                int nodo = LS[candidato][k].j;
+                if (d[nodo] > d[candidato] + LS[candidato][k].c) {
+                    d[nodo] = d[candidato] + LS[candidato][k].c;
+                    pred[nodo] = candidato;
                 }
             }
-            if (dmin = maxint) parar = true;                                    // En caso de que la distancia minima sea máxima (no hay distancia minima para el nodo)
-            std::cout << "dmin: " << dmin << std::endl;
-             std::cout << "parar: " << parar << std::endl;
-                                                                                // se para el while 
         }
-    } while (almacen.size() != 0 && parar == false);
-    for (int i{0}; i < n; i++) {
-        std::cout << pred[i] << std::endl;
-    }
-    cout << "Soluciones:" << endl;
+    } while (dmin != maxint);
+    std::cout << "Soluciones:" << std::endl;
     //En esta parte del código, mostramos los caminos mínimos, si los hay
     for (int nodo_destino{0}; nodo_destino < n; nodo_destino++) {
-        if (pred[nodo_destino]) {
-            std::cout << "El camino desde " << s + 1 << " al nodo " << nodo_destino << " es: ";
+        if (pred[nodo_destino] && nodo_destino != s) {
+            std::cout << "El camino desde " << s + 1 << " al nodo " << nodo_destino + 1 << " es: ";
             MostrarCamino(s, nodo_destino, pred);
             std::cout << " de longitud " << d[nodo_destino] << std::endl;
-            //std::cout << "DEBUG\n";
-        } else {
-            std::cout << "No hay camino desde " << s + 1 << " al nodo " << nodo_destino << std::endl;
+        } else if (nodo_destino == s);
+        else {
+            std::cout << "No hay camino desde " << s + 1 << " al nodo " << nodo_destino + 1 << std::endl;
         }
     }
 }

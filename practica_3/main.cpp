@@ -109,7 +109,6 @@ int main(int argc, char *argv[])
                     G.kruskal();
                     break;
                 case 'd' :
-                    cout << "\nCaminos minimos: Dijkstra\n";
                     G.Dijkstra();
                     break;
                 default: 
